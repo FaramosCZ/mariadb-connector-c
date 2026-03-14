@@ -80,7 +80,7 @@ char **get_default_configuration_dirs()
 #endif
   char *env;
 
-  configuration_dirs= (char **)calloc(1, (MAX_CONFIG_DIRS + 1) * sizeof(char *));
+  configuration_dirs= (char **)calloc(MAX_CONFIG_DIRS + 1, sizeof(char *));
   if (!configuration_dirs)
     goto end;
 

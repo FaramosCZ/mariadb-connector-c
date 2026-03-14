@@ -68,7 +68,7 @@ MA_FILE *ma_open(const char *location, const char *mode, MYSQL *mysql)
     len= MultiByteToWideChar(CodePage, 0, location, (int)strlen(location), NULL, 0);
     if (!len)
       return NULL;
-    if (!(w_filename= (wchar_t *)calloc(1, (len + 1) * sizeof(wchar_t))))
+    if (!(w_filename= (wchar_t *)calloc(len + 1, sizeof(wchar_t))))
     {
       my_set_error(mysql, CR_OUT_OF_MEMORY, SQLSTATE_UNKNOWN, 0);
       return NULL;
@@ -82,7 +82,7 @@ MA_FILE *ma_open(const char *location, const char *mode, MYSQL *mysql)
       return NULL;
     }
     len= (int)strlen(mode);
-    if (!(w_mode= (wchar_t *)calloc(1, (len + 1) * sizeof(wchar_t))))
+    if (!(w_mode= (wchar_t *)calloc(len + 1, sizeof(wchar_t))))
     {
       my_set_error(mysql, CR_OUT_OF_MEMORY, SQLSTATE_UNKNOWN, 0);
       free(w_filename);

@@ -97,11 +97,9 @@ int stmt_fetch_init(MYSQL *mysql, Stmt_fetch *fetch, unsigned int stmt_no_arg,
     set up.
   */
 
-  fetch->bind_array= (MYSQL_BIND *) calloc(1, sizeof(MYSQL_BIND) *
-                                              fetch->column_count);
-  fetch->out_data= (char**) calloc(1, sizeof(char*) * fetch->column_count);
-  fetch->out_data_length= (ulong*) calloc(1, sizeof(ulong) *
-                                             fetch->column_count);
+  fetch->bind_array= (MYSQL_BIND *) calloc(fetch->column_count, sizeof(MYSQL_BIND));
+  fetch->out_data= (char**) calloc(fetch->column_count, sizeof(char*));
+  fetch->out_data_length= (ulong*) calloc(fetch->column_count, sizeof(ulong));
 
   FAIL_IF(!fetch->bind_array || !fetch->out_data || !fetch->out_data_length, "Memory allocation failed");
 
@@ -178,8 +176,7 @@ int fetch_n(MYSQL *mysql, const char **query_list, unsigned query_count,
 {
   unsigned open_statements= query_count;
   int rc, error_count= 0;
-  Stmt_fetch *fetch_array= (Stmt_fetch*) calloc(1, sizeof(Stmt_fetch) *
-                                                  query_count);
+  Stmt_fetch *fetch_array= (Stmt_fetch*) calloc(query_count, sizeof(Stmt_fetch));
   Stmt_fetch *fetch;
 
   FAIL_IF(!fetch_array, "Memory allocation failed");

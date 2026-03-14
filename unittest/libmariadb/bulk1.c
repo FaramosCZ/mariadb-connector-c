@@ -319,7 +319,7 @@ static int bulk_null(MYSQL *mysql)
   unsigned int param_count= 2;
   unsigned int array_size= 2;
   unsigned long lengths[2]= {-1, -1};
-  char **buf= calloc(1, 2 * sizeof(char *));
+  char **buf= calloc(2, sizeof(char *));
 
   if (!bulk_enabled)
   {
