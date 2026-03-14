@@ -309,6 +309,8 @@ static int test_mdev35935(MYSQL *mysql)
   lengths= calloc(TEST_ARRAY_SIZE, sizeof *lengths);
   vals= calloc(TEST_ARRAY_SIZE, sizeof *vals);
 
+  FAIL_IF(!buffer || !lengths || !vals, "Memory allocation failed");
+
   for (i=0; i < TEST_ARRAY_SIZE; i++)
   {
     buffer[i]= (void *)data;

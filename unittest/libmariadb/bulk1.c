@@ -86,6 +86,8 @@ static int bulk1(MYSQL *mysql)
   lengths= calloc(TEST_ARRAY_SIZE, sizeof *lengths);
   vals= calloc(TEST_ARRAY_SIZE, sizeof *vals);
 
+  FAIL_IF(!buffer || !lengths || !vals, "Memory allocation failed");
+
   for (i=0; i < TEST_ARRAY_SIZE; i++)
   {
     buffer[i]= rand_str(254);
@@ -1128,6 +1130,8 @@ static int bulk_with_unit_result_insert(MYSQL *my)
   buffer= calloc(TEST_ARRAY_SIZE, sizeof *buffer);
   lengths= calloc(TEST_ARRAY_SIZE, sizeof *lengths);
 
+  FAIL_IF(!buffer || !lengths, "Memory allocation failed");
+
   for (i=0; i < TEST_ARRAY_SIZE; i++)
   {
     buffer[i]= rand_str(254);
@@ -1252,6 +1256,8 @@ static int bulk_with_unit_result_delete(MYSQL *my)
   check_stmt_rc(rc, stmt);
 
   vals= calloc(5, sizeof *vals);
+  FAIL_IF(!vals, "Memory allocation failed");
+
   memset(bind, 0, sizeof(MYSQL_BIND) * 1);
   bind[0].buffer_type= MYSQL_TYPE_LONG;
   bind[0].buffer= vals;
@@ -1360,6 +1366,8 @@ static int bulk_with_unit_result_update(MYSQL *my)
   check_stmt_rc(rc, stmt);
 
   vals= calloc(5, sizeof *vals);
+  FAIL_IF(!vals, "Memory allocation failed");
+
   memset(bind, 0, sizeof(MYSQL_BIND) * 1);
   bind[0].buffer_type= MYSQL_TYPE_LONG;
   bind[0].buffer= vals;

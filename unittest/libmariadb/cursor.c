@@ -102,9 +102,13 @@ int stmt_fetch_init(MYSQL *mysql, Stmt_fetch *fetch, unsigned int stmt_no_arg,
   fetch->out_data= (char**) calloc(1, sizeof(char*) * fetch->column_count);
   fetch->out_data_length= (ulong*) calloc(1, sizeof(ulong) *
                                              fetch->column_count);
+
+  FAIL_IF(!fetch->bind_array || !fetch->out_data || !fetch->out_data_length, "Memory allocation failed");
+
   for (i= 0; i < fetch->column_count; ++i)
   {
     fetch->out_data[i]= (char*) calloc(1, MAX_COLUMN_LENGTH);
+    FAIL_IF(!fetch->out_data[i], "Memory allocation failed");
     fetch->bind_array[i].buffer_type= MYSQL_TYPE_STRING;
     fetch->bind_array[i].buffer= fetch->out_data[i];
     fetch->bind_array[i].buffer_length= MAX_COLUMN_LENGTH;
@@ -177,6 +181,8 @@ int fetch_n(MYSQL *mysql, const char **query_list, unsigned query_count,
   Stmt_fetch *fetch_array= (Stmt_fetch*) calloc(1, sizeof(Stmt_fetch) *
                                                   query_count);
   Stmt_fetch *fetch;
+
+  FAIL_IF(!fetch_array, "Memory allocation failed");
 
   for (fetch= fetch_array; fetch < fetch_array + query_count; ++fetch)
   {
@@ -310,6 +316,8 @@ static int test_bug21206(MYSQL *mysql)
 
   Stmt_fetch *fetch_array=
     (Stmt_fetch*) calloc(cursor_count, sizeof(Stmt_fetch));
+
+  FAIL_IF(!fetch_array, "Memory allocation failed");
 
   Stmt_fetch *fetch;
 
